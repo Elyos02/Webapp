@@ -292,15 +292,21 @@ img{max-width:100%;height:auto}
 /* SVG fisso su tutta la pagina */
 #page-wires{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
 .pw{fill:none;stroke-linecap:round;stroke-linejoin:round}
-.pw-o1{stroke:rgba(255,107,43,.12);stroke-width:1.2;stroke-dasharray:80 1720;animation:pwflow 4s linear infinite}
-.pw-o2{stroke:rgba(255,107,43,.09);stroke-width:1;stroke-dasharray:80 1720;animation:pwflow 5.5s linear infinite 1.8s}
-.pw-b1{stroke:rgba(27,111,216,.1);stroke-width:1;stroke-dasharray:80 1720;animation:pwflow 5s linear infinite 0.9s}
-.pw-b2{stroke:rgba(27,111,216,.08);stroke-width:.9;stroke-dasharray:80 1720;animation:pwflow 6s linear infinite 2.8s}
-.pw-az{stroke:rgba(14,165,233,.08);stroke-width:.8;stroke-dasharray:80 1720;animation:pwflow 7s linear infinite 3.5s}
+.pw-o1{stroke:rgba(255,107,43,.28);stroke-width:1.4;stroke-dasharray:140 1660;animation:pwflow 4s linear infinite}
+.pw-o2{stroke:rgba(255,107,43,.22);stroke-width:1.2;stroke-dasharray:140 1660;animation:pwflow 5.5s linear infinite 1.8s}
+.pw-b1{stroke:rgba(27,111,216,.24);stroke-width:1.2;stroke-dasharray:140 1660;animation:pwflow 5s linear infinite 0.9s}
+.pw-b2{stroke:rgba(27,111,216,.20);stroke-width:1;stroke-dasharray:140 1660;animation:pwflow 6s linear infinite 2.8s}
+.pw-az{stroke:rgba(14,165,233,.18);stroke-width:.9;stroke-dasharray:140 1660;animation:pwflow 7s linear infinite 3.5s}
+/* Nodi interni — dot centrale *)
 .pn{transform-box:fill-box;transform-origin:50% 50%;animation:spark 3s ease-in-out infinite}
-.pn-o{fill:rgba(255,107,43,.45)}
-.pn-b{fill:rgba(27,111,216,.45);animation-delay:1.5s}
-.pn-az{fill:rgba(14,165,233,.45);animation-delay:3s}
+.pn-o{fill:rgba(255,107,43,.7)}
+.pn-b{fill:rgba(27,111,216,.7);animation-delay:1.5s}
+.pn-az{fill:rgba(14,165,233,.7);animation-delay:3s}
+/* Anello PCB pad esterno */
+.pn-ring{fill:none;stroke-width:1.2;transform-box:fill-box;transform-origin:50% 50%;animation:spark 3s ease-in-out infinite}
+.pn-ring.pn-o{stroke:rgba(255,107,43,.45);animation-delay:.3s}
+.pn-ring.pn-b{stroke:rgba(27,111,216,.45);animation-delay:1.8s}
+.pn-ring.pn-az{stroke:rgba(14,165,233,.45);animation-delay:3.3s}
 
 /* Gradiente ambientale fisso */
 body::before{content:"";position:fixed;inset:0;background:
@@ -309,13 +315,9 @@ body::before{content:"";position:fixed;inset:0;background:
   pointer-events:none;z-index:0}
 nav,section,footer,.hero,.cta-band{position:relative;z-index:1}
 
-/* Profondità testo — white glow sopra i fili */
-h1,h2,h3,h4{text-shadow:0 0 32px rgba(255,255,255,1),0 2px 8px rgba(255,255,255,.9)}
-p,.section-desc,.hero-desc{text-shadow:0 0 18px rgba(255,255,255,.95)}
-
-/* Card con backdrop lieve per emerger sopra i fili */
+/* Card elevation — profondità reale tramite ombra, non trucchi */
 .serv-card,.why-card,.hcard,.path-card{
-  backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px)}
+  box-shadow:0 1px 4px rgba(0,0,0,0.06),0 4px 20px rgba(0,0,0,0.07)}
 
 /* Card colored glow hover */
 .serv-card.emergency:hover{box-shadow:0 12px 48px rgba(255,107,43,.18);border-color:rgba(255,107,43,.35) !important}
@@ -386,14 +388,31 @@ p,.section-desc,.hero-desc{text-shadow:0 0 18px rgba(255,255,255,.95)}
 <body>
 <div id="page-wires" aria-hidden="true">
   <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%">
-    <path class="pw pw-o1" d="M900,0 L900,140 L1060,140 L1060,60 L1220,60 L1220,180 L1440,180"/>
-    <path class="pw pw-o2" d="M600,0 L600,200 L760,200 L760,80 L940,80 L940,240 L1100,240 L1100,120 L1440,120"/>
-    <path class="pw pw-b1" d="M0,280 L140,280 L140,160 L300,160 L300,320 L460,320 L460,200 L620,200 L620,360 L780,360"/>
-    <path class="pw pw-b2" d="M0,580 L180,580 L180,460 L360,460 L360,600 L540,600 L540,480 L700,480"/>
-    <path class="pw pw-az" d="M360,900 L360,740 L540,740 L540,840 L720,840 L720,700 L900,700 L900,800 L1100,800 L1100,680 L1320,680 L1320,820 L1440,820"/>
-    <circle class="pn pn-o" cx="940" cy="80" r="3.5"/>
-    <circle class="pn pn-b" cx="300" cy="160" r="3"/>
-    <circle class="pn pn-az" cx="720" cy="700" r="3"/>
+    <!-- Bordo superiore → si collega al nav CTA "Richiedi intervento" (top-right) -->
+    <path class="pw pw-o1" d="M0,30 L180,30 L180,70 L420,70 L420,30 L680,30 L680,70 L940,70 L940,30 L1160,30 L1160,70 L1340,70 L1340,40"/>
+    <!-- Bordo destro → si collega alla path-card "Richiedi intervento" (hero sinistra) -->
+    <path class="pw pw-o2" d="M1440,220 L1320,220 L1320,140 L1160,140 L1160,300 L1000,300 L1000,180 L840,180 L840,360 L680,360 L680,260 L520,260 L520,400 L380,400 L380,340 L280,340 L280,430"/>
+    <!-- Bordo sinistro → si collega alla path-card "Diventa partner" (hero destra) -->
+    <path class="pw pw-b1" d="M0,300 L120,300 L120,180 L260,180 L260,320 L400,320 L400,220 L540,220 L540,390 L565,390 L565,430"/>
+    <!-- Bordo destro basso → si collega al CTA band "WhatsApp" -->
+    <path class="pw pw-b2" d="M1440,680 L1300,680 L1300,720 L1140,720 L1140,680 L980,680 L980,720 L820,720 L820,700"/>
+    <!-- Bordo sinistro basso → si collega al CTA band "Richiedi intervento" -->
+    <path class="pw pw-az" d="M0,720 L140,720 L140,680 L300,680 L300,720 L460,720 L460,680 L620,680 L620,720 L675,720 L675,700"/>
+    <!-- PCB pad sul nav CTA -->
+    <circle class="pn-ring pn-o" cx="1340" cy="40" r="8"/>
+    <circle class="pn pn-o" cx="1340" cy="40" r="4"/>
+    <!-- PCB pad sulla hero path-card sinistra -->
+    <circle class="pn-ring pn-o" cx="280" cy="430" r="8"/>
+    <circle class="pn pn-o" cx="280" cy="430" r="4"/>
+    <!-- PCB pad sulla hero path-card destra -->
+    <circle class="pn-ring pn-b" cx="565" cy="430" r="8"/>
+    <circle class="pn pn-b" cx="565" cy="430" r="4"/>
+    <!-- PCB pad sul CTA band destro -->
+    <circle class="pn-ring pn-b" cx="820" cy="700" r="7"/>
+    <circle class="pn pn-b" cx="820" cy="700" r="3.5"/>
+    <!-- PCB pad sul CTA band sinistro -->
+    <circle class="pn-ring pn-az" cx="675" cy="700" r="7"/>
+    <circle class="pn pn-az" cx="675" cy="700" r="3.5"/>
   </svg>
 </div>
 <nav id="main-nav">
